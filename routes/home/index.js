@@ -4,7 +4,7 @@ const Post = require("../../models/Post");
 const faker = require("faker");
 const Categories = require("../../models/Category");
 const Users = require("../../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
