@@ -1,0 +1,129 @@
+<!-- Success/Error Messages template  -->
+{{> success-fail}}
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Register an Account</div>
+    <div class="card-body">
+        <form action="/register" method="post" data-toggle="validator" role='form' class="registerForm">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="exampleInputName">First name</label>
+                        <input name="firstName" class="form-control" id="exampleInputName" type="text" aria-describedby="nameHelp"
+                            placeholder="Enter first name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputLastName">Last name</label>
+                        <input name="lastName" class="form-control" id="exampleInputLastName" type="text"
+                            aria-describedby="nameHelp" placeholder="Enter last name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input name="email" class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp"
+                    placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword" class="control-label">Password</label>
+                        <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Password"
+                            required name="password">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleConfirmPassword">Confirm password</label>
+                        <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword"
+                            data-match-error="Whoops, these don't match" placeholder="Confirm" name="confirmPassword"
+                            required>
+                        <div class="
+                            help-block with-errors"></div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+        <div class="text-center">
+            <a class="d-block small mt-3" href="/login">Login Page</a>
+            <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+            <a class="d-block small" href="/">Home Page?</a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="/js/jquery/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Validator JS-->
+<script src="/js/bootstrapValidator.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registerForm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                firstName: {
+                    message: 'The first name is not valid',
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name is required and cannot be empty'
+                        }
+                    }
+                },
+
+                lastName: {
+                    message: 'The last name is not valid',
+                    validators: {
+                        notEmpty: {
+                            message: 'The last name is required and cannot be empty'
+                        }
+                    }
+                },
+
+                email: {
+                    message: 'The email address is not valid',
+                    validators: {
+                        nonEmpty: {
+                            message: 'The email address is required and cannot be empty'
+                        },
+
+                        regexp: {
+                            regexp: /\S+@\S+\.\S+/,
+                            message: 'The email address is not valid'
+                        }
+                    }
+                },
+
+                password: {
+                    validators: {
+                        identical: {
+                            field: 'confirmPassword',
+                            message: 'Confirm your password below - type same password please'
+                        },
+
+                        nonEmpty: {
+                            message: 'The password is required and cannot be empty'
+                        }
+                    }
+                },
+
+                confirmPassword: {
+                    validators: {
+                        identical: {
+                            field: 'password',
+                            message: 'The password and its confirm are not the same'
+                        },
+
+                        nonEmpty: {
+                            message: 'The confirm password is required and cannot be empty'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

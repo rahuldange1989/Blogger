@@ -1,0 +1,46 @@
+<h1>Create Post</h1>
+
+{{> success-fail}}
+
+<form action="/admin/posts/create" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input name='title' type="text" class="form-control" id="title" placeholder="Enter title" required />
+    </div>
+
+    <div class="form-group">
+        <label for="postPic">Post Pic</label>
+        <input type="file" name="postPic" id="postPic" class="form-control" accept=".jpeg, .png, .jpg" />
+    </div>
+
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" name="category" id="category">
+            {{#each categories}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select name="status" id="status" class='form-control'>
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+            <option value="draft">Draft</option>
+        </select>
+    </div>
+
+    <div class="form-check">
+        <label for="allowComments" class="form-check-label">
+            <input name='allowComments' type="checkbox" class='form-check-input' id='allowComments'>Allow Comments
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="body">Body</label>
+        <textarea name='body' rows='5' type="text" class='form-control' id='body' placeholder="Enter body" required></textarea>
+    </div>
+
+    <button type='submit' class='btn btn-primary'>Create Post</button>
+</form>

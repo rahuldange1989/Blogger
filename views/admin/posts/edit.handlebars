@@ -1,0 +1,54 @@
+<h1>Edit Post</h1>
+
+<form action="/admin/posts/edit/{{post.id}}" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input name='title' type="text" class="form-control" id="title" value="{{post.title}}" required />
+    </div>
+
+    <div class="form-group">
+        <label for="postPic">Post Pic</label>
+        <input type="file" name="postPic" id="postPic" class="form-control" accept=".jpeg, .png, .jpg" />
+        {{#if post.file}}
+        <div class="form-group">
+            <label for="postPic">Current Post Image : {{post.file}}</label>
+        </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" name="category" id="category">
+            {{#select post.category}}
+            {{#each categories}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select name="status" id="status" class='form-control'>
+            {{#select post.status}}
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+            <option value="draft">Draft</option>
+            {{/select}}
+        </select>
+    </div>
+
+    <div class="form-check">
+        <label for="allowComments" class="form-check-label">
+            <input name='allowComments' type="checkbox" class='form-check-input' id='allowComments'
+                {{#if post.allowComments}} checked='checked' {{/if}}>Allow Comments
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="body">Body</label>
+        <textarea name='body' rows='5' type="text" class='form-control' id='body' required>{{post.body}}</textarea>
+    </div>
+
+    <button type='submit' class='btn btn-primary'>Update Post</button>
+</form>

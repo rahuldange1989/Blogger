@@ -1,0 +1,64 @@
+<!-- Template for showing success/error messages -->
+{{> success-fail}}
+
+<h4>Comments</h4>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Owner</th>
+            <th>Date</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each comments}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{user.firstName}} {{user.lastName}}</td>
+            <td>{{#getDateInFormat date 'DD MMM YYYY, hh:mm a'}}{{/getDateInFormat}}</td>
+            <td><a href="" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="{{id}}">Delete</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<!-- Delete Modal Dialog -->
+<div class="modal fade" id="deleteModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete a comment?</p>
+            </div>
+            <div class="modal-footer">
+                <button type='button' class='btn btn-default' data-dismiss="modal">Cancel</button>
+                <button type='button' class='btn btn-danger' data-dismiss="modal" id='deleteButton'>Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/jquery/jquery.min.js"></script>
+<script src="/js/jquery-easing/jquery.easing.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $("a[data-toggle=modal]").click(function () {
+            $("#deleteButton").attr("data-id", $(this).data('id'));
+        })
+    })
+
+    $(function () {
+        $("#deleteButton").click(function () {
+            var deleteCommentId = $(this).data("id");
+            location.href = "/admin/comments/delete/" + deleteCommentId;
+        })
+    })
+
+</script>

@@ -1,0 +1,38 @@
+<!-- Template for success/danger alerts -->
+{{#each success}}
+<script src="/js/jquery/jquery.min.js"></script>
+<script src="/js/jquery-easing/jquery.easing.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+    });
+</script>
+
+<div class='alert alert-success' id="success-alert">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Success! </strong>
+    {{message}}
+</div>
+{{/each}}
+
+{{#each errors}}
+<script src="/js/jquery/jquery.min.js"></script>
+<script src="/js/jquery-easing/jquery.easing.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#danger-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#danger-alert").slideUp(500);
+        });
+    });
+</script>
+
+<div class='alert alert-danger' id="danger-alert">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Error! </strong>
+    {{message}}
+</div>
+{{/each}}
