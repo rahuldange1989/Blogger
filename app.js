@@ -26,7 +26,7 @@ mongoose
   });
 
 // -- Setting up Node Server for CMS App
-const port = process.env.PORT || 9090;
+const port = process.env.PORT || 80;
 const app = Express();
 
 app.listen(port, () => {
