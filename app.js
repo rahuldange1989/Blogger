@@ -8,6 +8,7 @@ const fileUpload = require("express-fileupload");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
+const redirectToHTTPS = require("express-http-to-https").redirectToHTTPS;
 
 // -- setup database connectivity
 const databasrUrl = "mongodb://localhost:27017/cms";
@@ -65,6 +66,9 @@ app.engine(
   })
 );
 app.set("view engine", "handlebars");
+
+// Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
+app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
 
 // -- Upload middleware
 app.use(fileUpload());
