@@ -84,7 +84,7 @@ passport.use(
 
 router.post("/login", (req, res, next) => {
   var redirectUrl = req.session.redirectTo;
-  if (!redirectUrl) {
+  if (!redirectUrl || redirectUrl == "/register") {
     redirectUrl = "/admin";
   }
 
@@ -136,13 +136,13 @@ router.post("/register", (req, res) => {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       errorMessages.push({ messages: err.errmsg });
-      res.redirect("/register");
+      res.redirect("/login");
     }
 
     bcrypt.hash(newUser.password, salt, (err, hash) => {
       if (err) {
         errorMessages.push({ messages: err.errmsg });
-        res.redirect("/register");
+        res.redirect("/login");
       }
 
       newUser.password = hash;
@@ -150,11 +150,11 @@ router.post("/register", (req, res) => {
         .save()
         .then(newUser => {
           successMessages.push({ message: "User created successfully..." });
-          res.redirect("/register");
+          res.redirect("/login");
         })
         .catch(validators => {
           errorMessages.push({ message: validators.errmsg });
-          res.redirect("/register");
+          res.redirect("/login");
         });
     });
   });
