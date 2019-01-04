@@ -23,7 +23,7 @@ mongoose
     Util.log("DB Connected");
   })
   .catch(err => {
-    utiil.log(err);
+    util.log(err);
   });
 
 // -- Setting up Node Server for CMS App
