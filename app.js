@@ -69,7 +69,7 @@ app.set("view engine", "handlebars");
 
 // Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
 const isSecureString = process.argv.slice(2).toString();
-if (isSecureString == "secure") {
+if (isSecureString != "nonsecure") {
   app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
 }
 
