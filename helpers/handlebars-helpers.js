@@ -22,12 +22,11 @@ module.exports = {
     return moment(date).format(format);
   },
 
-  isEqual: function(value1, value2) {
-    console.log(`>>> ${value1} <<< ${value2}`);
+  isEqual: function(value1, value2, options) {
     if (value1 == value2) {
-      return "selected";
+      return options.fn(this);
     } else {
-      return "";
+      return options.inverse(this);
     }
   }
 };

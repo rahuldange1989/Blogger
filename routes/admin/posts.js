@@ -19,17 +19,25 @@ router.all("/*", userAuthenticated, (req, res, next) => {
 
 // -- Route for root '/admin/posts'
 router.get("/", (req, res) => {
-  Posts.find()
+  Posts.find({ user: global.user._id })
     .populate("category")
     .then(posts => {
       if (successMessages.length > 0) {
-        res.render("admin/posts", { posts: posts, success: successMessages });
+        res.render("admin/posts", {
+          posts: posts,
+          success: successMessages,
+          globalUser: global.user
+        });
         successMessages = {};
       } else if (errorMessages.length > 0) {
-        res.render("admin/posts", { posts: posts, errors: errorMessages });
+        res.render("admin/posts", {
+          posts: posts,
+          errors: errorMessages,
+          globalUser: global.user
+        });
         errorMessages = {};
       } else {
-        res.render("admin/posts", { posts: posts });
+        res.render("admin/posts", { posts: posts, globalUser: global.user });
       }
     })
     .catch(err => {
@@ -42,7 +50,8 @@ router.get("/create", (req, res) => {
   Categories.find()
     .then(categories => {
       res.render("admin/posts/create", {
-        categories: categories
+        categories: categories,
+        globalUser: global.user
       });
     })
     .catch(err => {
@@ -78,6 +87,7 @@ router.post("/create", (req, res) => {
   }
 
   const newPost = Posts({
+    user: global.user._id,
     title: req.body.title,
     status: req.body.status,
     allowComments: allowComments,

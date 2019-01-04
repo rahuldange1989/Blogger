@@ -19,7 +19,8 @@
                 <a href="/post/{{id}}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
-                Posted on {{#getDateInFormat date 'MMMM DD, YYYY'}}{{/getDateInFormat}} by Rahul Dange
+                Posted on {{#getDateInFormat date 'MMMM DD, YYYY'}}{{/getDateInFormat}} by <b>{{user.firstName}}
+                    {{user.lastName}}</b>
             </div>
         </div>
         {{/each}}

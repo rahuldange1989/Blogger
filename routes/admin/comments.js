@@ -19,17 +19,22 @@ router.get("/", (req, res) => {
       if (successMessages.length > 0) {
         res.render("admin/comments", {
           comments: comments,
-          success: successMessages
+          success: successMessages,
+          globalUser: global.user
         });
         successMessages = [];
       } else if (errorMessages.length > 0) {
         res.render("admin/comments", {
           comments: comments,
-          errors: errorMessages
+          errors: errorMessages,
+          globalUser: global.user
         });
         errorMessages = [];
       } else {
-        res.render("admin/comments", { comments: comments });
+        res.render("admin/comments", {
+          comments: comments,
+          globalUser: global.user
+        });
       }
     });
 });

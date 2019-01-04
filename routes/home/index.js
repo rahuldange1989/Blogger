@@ -20,6 +20,7 @@ router.all("/*", (req, res, next) => {
 // -- Route for root '/'
 router.get("/", (req, res) => {
   Post.find()
+    .populate("user")
     .then(posts => {
       Categories.find()
         .then(categories => {
@@ -152,6 +153,7 @@ router.post("/register", (req, res) => {
 // -- Route for showing single post '/post/:id  '
 router.get("/post/:id", (req, res) => {
   Post.findById({ _id: req.params.id })
+    .populate("user")
     .then(post => {
       Categories.find()
         .then(categories => {

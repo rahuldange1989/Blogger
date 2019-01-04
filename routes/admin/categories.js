@@ -20,23 +20,29 @@ router.get("/", (req, res) => {
       if (successMessages.length > 0) {
         res.render("admin/categories/", {
           categories: categories,
-          success: successMessages
+          success: successMessages,
+          globalUser: global.user
         });
         successMessages = [];
       } else if (errorMessages.length > 0) {
         res.render("admin/categories/", {
           categories: categories,
-          errors: errorMessages
+          errors: errorMessages,
+          globalUser: global.user
         });
         errorMessages = [];
       } else if (editCategory != null) {
         res.render("admin/categories/", {
           categories: categories,
-          category: editCategory
+          category: editCategory,
+          globalUser: global.user
         });
         editCategory = null;
       } else {
-        res.render("admin/categories/", { categories: categories });
+        res.render("admin/categories/", {
+          categories: categories,
+          globalUser: global.user
+        });
       }
     })
     .catch(validator => {

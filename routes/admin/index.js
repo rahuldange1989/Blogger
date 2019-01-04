@@ -13,7 +13,7 @@ router.all("/*", userAuthenticated, (req, res, next) => {
 
 // -- Route for root '/'
 router.get("/", (req, res) => {
-  res.render("admin/index", { user: global.user });
+  res.render("admin/index", { globalUser: global.user });
 });
 
 // -- Route for root '/dashboard'
