@@ -14,6 +14,11 @@ var successMessages = [];
 // -- Change the default layout to home before going to Home route
 router.all("/*", (req, res, next) => {
   req.app.locals.layout = "home";
+
+  if (req.originalUrl != "/login") {
+    req.session.redirectTo = req.originalUrl;
+  }
+
   next();
 });
 
@@ -78,8 +83,13 @@ passport.use(
 );
 
 router.post("/login", (req, res, next) => {
+  var redirectUrl = req.session.redirectTo;
+  if (!redirectUrl) {
+    redirectUrl = "/admin";
+  }
+
   passport.authenticate("local", {
-    successRedirect: "/admin",
+    successRedirect: redirectUrl,
     failureRedirect: "/login",
     failureFlash: true
   })(req, res, next);
@@ -157,7 +167,11 @@ router.get("/post/:id", (req, res) => {
     .then(post => {
       Categories.find()
         .then(categories => {
-          res.render("home/post", { post: post, categories: categories });
+          res.render("home/post", {
+            post: post,
+            categories: categories,
+            globalUser: global.user
+          });
         })
         .catch(err => {
           res.send(err);

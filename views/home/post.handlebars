@@ -38,6 +38,8 @@
         <hr>
 
         <!-- Comments Form -->
+        {{#if globalUser}}
+        {{#if post.allowComments}}
         <div class="card my-4">
             <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
@@ -50,6 +52,24 @@
                 </form>
             </div>
         </div>
+        {{else}}
+        <div class="card my-4">
+            <div class="card-body">
+                <span>
+                    <h4>Comments are not allowed for this post.</h4>
+                </span>
+            </div>
+        </div>
+        {{/if}}
+        {{else}}
+        <div class="card my-4">
+            <div class="card-body">
+                <span>
+                    <h4>You need to login to be able to add comments for this post. <a href="/login">Login</a></h4>
+                </span>
+            </div>
+        </div>
+        {{/if}}
 
         <!-- Single Comment -->
         <div class="media mb-4">
