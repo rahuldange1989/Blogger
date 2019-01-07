@@ -15,7 +15,7 @@ var successMessages = [];
 router.all("/*", (req, res, next) => {
   req.app.locals.layout = "home";
 
-  if (req.originalUrl != "/login") {
+  if (req.originalUrl != "/login" && req.originalUrl != "/logout") {
     req.session.redirectTo = req.originalUrl;
   }
 
@@ -164,6 +164,7 @@ router.post("/register", (req, res) => {
 router.get("/post/:id", (req, res) => {
   Post.findById({ _id: req.params.id })
     .populate("user")
+    .populate({ path: "comments", populate: { path: "user", model: "users" } })
     .then(post => {
       Categories.find()
         .then(categories => {

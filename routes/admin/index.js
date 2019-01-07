@@ -4,6 +4,7 @@ const Posts = require("../../models/Post");
 const faker = require("faker");
 const Categories = require("../../models/Category");
 const { userAuthenticated } = require("../../helpers/authenticate");
+const Comments = require("../../models/Comment");
 
 // -- Change the default layout to admin before going to Admin route
 router.all("/*", userAuthenticated, (req, res, next) => {
@@ -13,12 +14,23 @@ router.all("/*", userAuthenticated, (req, res, next) => {
 
 // -- Route for root '/'
 router.get("/", (req, res) => {
-  res.render("admin/index", { globalUser: global.user });
+  Posts.count().then(pCount => {
+    Categories.count().then(cCount => {
+      Comments.count().then(coCount => {
+        res.render("admin/index", {
+          globalUser: global.user,
+          postCount: pCount,
+          categoryCount: cCount,
+          commentsCount: coCount
+        });
+      });
+    });
+  });
 });
 
 // -- Route for root '/dashboard'
 router.get("/dashboard", (req, res) => {
-  res.render("admin/index");
+  res.redirect("/admin");
 });
 
 // -- Route to create Fake data

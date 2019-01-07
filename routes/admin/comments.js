@@ -13,7 +13,7 @@ router.all("/*", (req, res, next) => {
 
 // -- For listing comments
 router.get("/", (req, res) => {
-  Comments.find({ user: global.user.id })
+  Comments.find()
     .populate("user")
     .then(comments => {
       if (successMessages.length > 0) {
