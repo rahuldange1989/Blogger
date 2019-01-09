@@ -16,7 +16,7 @@
             <div class="card-body">
                 <h2 class="card-title">{{title}}</h2>
                 <p class="card-text">{{body}}</p>
-                <a href="/post/{{id}}" class="btn btn-primary">Read More &rarr;</a>
+                <a href="/post/{{slug}}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
                 Posted on {{#getDateInFormat date 'MMMM DD, YYYY'}}{{/getDateInFormat}} by <b>{{user.firstName}}
@@ -26,18 +26,49 @@
         {{/each}}
 
         <!-- Pagination -->
-        <ul class="pagination justify-content-center mb-4">
-            <li class="page-item">
-                <a class="page-link" href="#">&larr; Older</a>
-            </li>
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Newer &rarr;</a>
-            </li>
-        </ul>
-
+        <div class="row" style="padding-left:15px">
+            {{#paginate current=current pages=pages}}{{/paginate}}
+        </div>
+        <div class="row">&nbsp;</div>
     </div>
 
     <!-- Sidebar Widgets Column -->
     {{> home/home-sidebar}}
 
 </div>
+
+<script src="/js/jquery/jquery.min.js"></script>
+<script src="/js/jquery-easing/jquery.easing.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#editPageBox").keydown(function (event) {
+            // Allow only backspace and delete
+            if (event.keyCode == 46 || event.keyCode == 8) {
+                // let it happen, don't do anything
+            }
+            else {
+                // Ensure that it is a number and stop the keypress
+                if (event.keyCode < 48 || event.keyCode > 57) {
+                    event.preventDefault();
+                }
+            }
+        });
+    });
+
+    $(function () {
+        $('#editPageBox').keyup(function (event) {
+            var keypressed = event.keyCode || event.which;
+            if (keypressed == 13) {
+                var value = $('#editPageBox').val();
+                var numberOfPages = parseInt("{{pages}}");
+
+                if (value > numberOfPages) {
+                    value = numberOfPages;
+                }
+
+                location.href = "?page=" + value;
+            }
+        })
+    });
+</script>

@@ -11,6 +11,7 @@
             <th>Status</th>
             <th>Allow Comments</th>
             <th>Created Date</th>
+            <th>View Post</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -30,6 +31,7 @@
             <td>{{status}}</td>
             <td>{{allowComments}}</td>
             <td>{{#getDateInFormat date 'DD MMM YYYY, hh:mm a'}}{{/getDateInFormat}}</td>
+            <td><a href="/post/{{slug}}">View Post</a></td>
             <td><a href="/admin/posts/edit/{{id}}" class='btn btn-info'>Edit</a></td>
             <td><a href="/admin/posts/delete/{{id}}" class='btn btn-danger' data-toggle='modal' data-target='#deleteModal'
                     data-id="{{id}}">Delete</a></td>

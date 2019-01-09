@@ -14,16 +14,18 @@ router.all("/*", userAuthenticated, (req, res, next) => {
 
 // -- Route for root '/'
 router.get("/", (req, res) => {
-  Posts.count().then(pCount => {
-    Categories.count().then(cCount => {
-      Comments.count().then(coCount => {
-        res.render("admin/index", {
-          globalUser: global.user,
-          postCount: pCount,
-          categoryCount: cCount,
-          commentsCount: coCount
-        });
-      });
+  const promises = [
+    Posts.count().exec(),
+    Categories.count().exec(),
+    Comments.count().exec()
+  ];
+
+  Promise.all(promises).then(([pCount, cCount, coCount]) => {
+    res.render("admin/index", {
+      globalUser: global.user,
+      postCount: pCount,
+      categoryCount: cCount,
+      commentsCount: coCount
     });
   });
 });
@@ -44,13 +46,15 @@ router.post("/dashboard", (req, res) => {
         let categpryIndex = Math.floor(Math.random() * categories.length);
 
         const newPost = Posts({
+          user: "5c20a452110d3529d3472ce3",
           title: faker.name.title(),
           status: statusArray[index],
           body: faker.lorem.paragraphs(),
           allowComments: faker.random.boolean(),
           file: faker.image.image(),
           date: faker.date.past(),
-          category: categories[categpryIndex].id
+          category: categories[categpryIndex].id,
+          comments: []
         });
 
         newPost.save().catch(error => {

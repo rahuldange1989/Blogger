@@ -50,7 +50,8 @@ const {
   select,
   startsWith,
   getDateInFormat,
-  isEqual
+  isEqual,
+  paginate
 } = require("./helpers/handlebars-helpers");
 
 app.engine(
@@ -61,7 +62,8 @@ app.engine(
       select: select,
       startsWith: startsWith,
       getDateInFormat: getDateInFormat,
-      isEqual: isEqual
+      isEqual: isEqual,
+      paginate: paginate
     }
   })
 );

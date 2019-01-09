@@ -24,16 +24,28 @@ router.all("/*", (req, res, next) => {
 
 // -- Route for root '/'
 router.get("/", (req, res) => {
+  const perPage = 10;
+  const page = req.query.page || 1;
+
   Post.find()
     .populate("user")
+    .skip(perPage * page - perPage)
+    .limit(perPage)
     .then(posts => {
-      Categories.find()
-        .then(categories => {
-          res.render("home/index", { posts: posts, categories: categories });
-        })
-        .catch(err => {
-          res.send(err);
-        });
+      Post.count().then(postCount => {
+        Categories.find()
+          .then(categories => {
+            res.render("home/index", {
+              posts: posts,
+              categories: categories,
+              current: parseInt(page),
+              pages: Math.ceil(postCount / perPage)
+            });
+          })
+          .catch(err => {
+            res.send(err);
+          });
+      });
     })
     .catch(err => {
       res.send(err);
@@ -161,8 +173,8 @@ router.post("/register", (req, res) => {
 });
 
 // -- Route for showing single post '/post/:id  '
-router.get("/post/:id", (req, res) => {
-  Post.findById({ _id: req.params.id })
+router.get("/post/:slug", (req, res) => {
+  Post.findOne({ slug: req.params.slug })
     .populate("user")
     .populate({ path: "comments", populate: { path: "user", model: "users" } })
     .then(post => {
@@ -188,6 +200,36 @@ router.get("/logout", (req, res) => {
   req.logOut();
   global.user = null;
   res.redirect("/login");
+});
+
+// -- Route for log out '/logout'
+router.get("/category/:category", (req, res) => {
+  const perPage = 10;
+  const page = req.query.page || 1;
+
+  Post.find({ category: req.params.category })
+    .populate("user")
+    .skip(perPage * page - perPage)
+    .limit(perPage)
+    .then(posts => {
+      Post.count({ category: req.params.category }).then(postCount => {
+        Categories.find()
+          .then(categories => {
+            res.render("home/index", {
+              posts: posts,
+              categories: categories,
+              current: parseInt(page),
+              pages: Math.ceil(postCount / perPage)
+            });
+          })
+          .catch(err => {
+            res.send(err);
+          });
+      });
+    })
+    .catch(err => {
+      res.send(err);
+    });
 });
 
 module.exports = router;
